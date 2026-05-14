@@ -1,0 +1,43 @@
+@media (max-width: 768px) {
+
+    .header-content {
+
+        flex-direction: column;
+
+        gap: 20px;
+    }
+
+    .hero-title {
+
+        font-size: 3rem;
+    }
+
+    .hero-description {
+
+        font-size: 1rem;
+    }
+
+    .search-box {
+
+        flex-direction: column;
+
+        border-radius: 30px;
+    }
+
+    .search-btn {
+
+        width: 100%;
+    }
+
+    .search-input {
+
+        width: 100%;
+
+        padding: 14px;
+    }
+
+    .currency-select {
+
+        width: 100%;
+    }
+}
