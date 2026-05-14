@@ -1,4 +1,4 @@
-export function renderEmptyState() {
+export function renderEmptyState(message) {
 
     const resultsGrid = document.getElementById("resultsGrid");
 
@@ -9,16 +9,9 @@ export function renderEmptyState() {
 
             <h3>
 
-                Start Searching
+                ${message}
 
             </h3>
-
-            <p>
-
-                Search for any product to compare prices
-                across different stores.
-
-            </p>
 
         </div>
 

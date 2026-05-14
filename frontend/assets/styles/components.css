@@ -214,26 +214,6 @@
     padding-bottom: 120px;
 }
 
-.results-header {
-
-    text-align: center;
-
-    margin-bottom: 50px;
-}
-
-.results-header h2 {
-
-    font-size: 3rem;
-
-    margin-bottom: 14px;
-}
-
-.results-header p {
-
-    color: var(--gray-color);
-
-    font-size: 1.1rem;
-}
 
 .results-grid {
 

@@ -11,6 +11,9 @@ export function renderProducts(products) {
                 src="${product.image}"
                 alt="${product.title}"
                 class="product-image"
+                onerror="
+                this.src='https://placehold.co/300x300?text=No+Image'
+                 "
             >
 
             <span class="product-store">
@@ -36,13 +39,6 @@ export function renderProducts(products) {
                 ⭐ ${product.rating}
 
             </div>
-
-            <button class="primary-btn full-btn">
-
-                View Deal
-
-            </button>
-
         </div>
 
     `).join("");

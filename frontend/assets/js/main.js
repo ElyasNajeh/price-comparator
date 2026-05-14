@@ -4,16 +4,34 @@ import { renderEmptyState } from "./ui/renderEmptyState.js";
 
 import { renderLoading } from "./ui/loading.js";
 
+import { searchProductsEbay } from "./services/productService.js";
+
 import { searchProducts } from "./services/productService.js";
+
 
 
 const searchInput = document.getElementById("searchInput");
 
 const searchBtn = document.getElementById("searchBtn");
 
+const popularTags = document.querySelectorAll(".popular-tag");
 
-renderEmptyState();
 
+popularTags.forEach(tag => {
+
+    tag.addEventListener("click", () => {
+
+        const productName = tag.textContent.trim();
+
+        searchInput.value = productName;
+
+        handleSearch();
+
+    });
+
+});
+
+renderEmptyState("Start Searching");
 
 // SEARCH FUNCTION
 async function handleSearch() {
@@ -21,7 +39,10 @@ async function handleSearch() {
     const searchTerm = searchInput.value.trim();
 
 
-    if (!searchTerm) return;
+    if (!searchTerm) {
+        renderEmptyState("No Results Found, Please Try Again");
+        return;
+    }
 
 
     renderLoading();
@@ -29,16 +50,27 @@ async function handleSearch() {
 
     try {
 
-        const products = await searchProducts(searchTerm);
+        const productsEbay =
+            await searchProductsEbay(searchTerm);
+
+        const products =
+            await searchProducts(searchTerm);
 
 
-        if (products.length > 0) {
 
-            renderProducts(products);
+        const allProducts = [
+            ...productsEbay,
+            ...products
+        ]
+
+
+        if (allProducts.length > 0) {
+
+            renderProducts(allProducts);
 
         } else {
 
-            renderEmptyState();
+            renderEmptyState("No Results Found, Please Try Again");
         }
 
     } catch (error) {

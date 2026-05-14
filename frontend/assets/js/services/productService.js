@@ -1,30 +1,85 @@
-export async function searchProducts(searchTerm) {
+export function searchProductsEbay(searchValue) {
+    return fetch(`https://dummyjson.com/products/search?q=${searchValue}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Failed To Fetch Products")
+            }
+            return response.json()
+        })
+        .then(data => {
+            const eBayProducts = data.products.map(product => ({
+                title: product.title,
+                image: product.thumbnail,
+                price: product.price,
+                rating: product.rating,
+                store: "eBay"
+            }));
+            return eBayProducts
+        })
+        .catch(error => {
 
-    return [
+            console.log(error)
 
-        {
-            title: "iPhone 15 Pro Max",
-            price: 1199,
-            store: "Amazon",
-            rating: 4.8,
-            image: "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?q=80&w=800"
-        },
+            return []
+        })
+}
+export function searchProducts(searchValue) {
 
-        {
-            title: "PlayStation 5",
-            price: 499,
-            store: "eBay",
-            rating: 4.9,
-            image: "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?q=80&w=800"
-        },
+    return fetch(`http://127.0.0.1:8000/products?search=${searchValue}`)
 
-        {
-            title: "MacBook Air M3",
-            price: 1499,
-            store: "BestBuy",
-            rating: 4.7,
-            image: "https://images.unsplash.com/photo-1517336714739-489689fd1ca8?q=80&w=800"
-        }
+        .then(response => {
 
-    ];
+            if (!response.ok) {
+                throw new Error("Failed To Fetch Products")
+            }
+
+            return response.json()
+        })
+
+        .then(data => {
+
+            console.log(data)
+
+            const amazonProducts = data.amazon.data.products.map(product => ({
+
+                title: product.product_title,
+
+                image: product.product_photo,
+
+                price: product.product_price,
+
+                rating: product.product_star_rating,
+
+                store: "Amazon"
+
+            }))
+
+            const aliexpressProducts =
+                data.AliExpress?.result?.resultList?.map(product => ({
+
+                    title: product.item.title,
+
+                    image: "https:" + product.item.image,
+
+                    price: product.item.sku.def.promotionPrice,
+
+                    rating: product.item.averageStarRate,
+
+                    store: "AliExpress"
+
+                })) || []
+
+            return [
+                ...amazonProducts,
+                ...aliexpressProducts
+            ]
+        })
+
+        .catch(error => {
+
+            console.log(error)
+
+            return []
+
+        })
 }
