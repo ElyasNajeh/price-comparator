@@ -1,28 +1,28 @@
-export function searchProductsEbay(searchValue) {
-    return fetch(`https://dummyjson.com/products/search?q=${searchValue}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Failed To Fetch Products")
-            }
-            return response.json()
-        })
-        .then(data => {
-            const eBayProducts = data.products.map(product => ({
-                title: product.title,
-                image: product.thumbnail,
-                price: product.price,
-                rating: product.rating,
-                store: "eBay"
-            }));
-            return eBayProducts
-        })
-        .catch(error => {
+// export function searchProductsEbay(searchValue) {
+//     return fetch(`https://dummyjson.com/products/search?q=${searchValue}`)
+//         .then(response => {
+//             if (!response.ok) {
+//                 throw new Error("Failed To Fetch Products")
+//             }
+//             return response.json()
+//         })
+//         .then(data => {
+//             const eBayProducts = data.products.map(product => ({
+//                 title: product.title,
+//                 image: product.thumbnail,
+//                 price: product.price,
+//                 rating: product.rating,
+//                 store: "eBay"
+//             }));
+//             return eBayProducts
+//         })
+//         .catch(error => {
 
-            console.log(error)
+//             console.log(error)
 
-            return []
-        })
-}
+//             return []
+//         })
+// }
 export function searchProducts(searchValue) {
 
     return fetch(`http://127.0.0.1:8000/products?search=${searchValue}`)
@@ -37,8 +37,6 @@ export function searchProducts(searchValue) {
         })
 
         .then(data => {
-
-            console.log(data)
 
             const amazonProducts = data.amazon.data.products.map(product => ({
 
@@ -69,9 +67,21 @@ export function searchProducts(searchValue) {
 
                 })) || []
 
+            const eBayProducts = data.eBay.map(product => ({
+                title: product.title,
+
+                image: product.image,
+
+                price: product.price,
+
+                rating: "4.5",
+
+                store: "eBay"
+            }))
             return [
                 ...amazonProducts,
-                ...aliexpressProducts
+                ...aliexpressProducts,
+                ...eBayProducts
             ]
         })
 

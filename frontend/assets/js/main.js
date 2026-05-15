@@ -4,7 +4,7 @@ import { renderEmptyState } from "./ui/renderEmptyState.js";
 
 import { renderLoading } from "./ui/loading.js";
 
-import { searchProductsEbay } from "./services/productService.js";
+// import { searchProductsEbay } from "./services/productService.js";
 
 import { searchProducts } from "./services/productService.js";
 
@@ -50,23 +50,17 @@ async function handleSearch() {
 
     try {
 
-        const productsEbay =
-            await searchProductsEbay(searchTerm);
+        // const productsEbay =
+        //     await searchProductsEbay(searchTerm);
 
         const products =
             await searchProducts(searchTerm);
 
 
 
-        const allProducts = [
-            ...productsEbay,
-            ...products
-        ]
+        if (products.length > 0) {
 
-
-        if (allProducts.length > 0) {
-
-            renderProducts(allProducts);
+            renderProducts(products);
 
         } else {
 
