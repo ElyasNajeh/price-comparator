@@ -5,6 +5,7 @@ import os
 
 load_dotenv()
 
+EBAY_ACCESS_TOKEN = None
 EBAY_CLIENT_ID = os.getenv("EBAY_CLIENT_ID")
 EBAY_CLIENT_SECRET = os.getenv("EBAY_CLIENT_SECRET")
 
@@ -49,7 +50,11 @@ def search_Express_products(search_value, api_key):
 
 
 def get_Token(clientID, clientSECRET):
+
+    global EBAY_ACCESS_TOKEN
+
     credentials = f"{clientID}:{clientSECRET}"
+
     encoded_credentials = base64.b64encode(credentials.encode()).decode()
 
     headers = {
@@ -68,15 +73,23 @@ def get_Token(clientID, clientSECRET):
         data=data,
     )
 
-    token = response.json()["access_token"]
+    response_data = response.json()
+
+    token = response_data["access_token"]
+
+    EBAY_ACCESS_TOKEN = token
 
     return token
 
 
 def search_eBay_products(search: str):
-    token = get_Token(EBAY_CLIENT_ID, EBAY_CLIENT_SECRET)
 
-    headers = {"Authorization": f"Bearer {token}"}
+    global EBAY_ACCESS_TOKEN
+
+    if not EBAY_ACCESS_TOKEN:
+        get_Token(EBAY_CLIENT_ID, EBAY_CLIENT_SECRET)
+
+    headers = {"Authorization": f"Bearer {EBAY_ACCESS_TOKEN}"}
 
     params = {"q": search, "limit": 20}
 
@@ -85,6 +98,20 @@ def search_eBay_products(search: str):
         headers=headers,
         params=params,
     )
+
+    # token expired
+    if response.status_code == 401:
+
+        get_Token(EBAY_CLIENT_ID, EBAY_CLIENT_SECRET)
+
+        headers = {"Authorization": f"Bearer {EBAY_ACCESS_TOKEN}"}
+
+        response = requests.get(
+            "https://api.sandbox.ebay.com/buy/browse/v1/item_summary/search",
+            headers=headers,
+            params=params,
+        )
+
     data = response.json()
 
     products = []
@@ -98,7 +125,6 @@ def search_eBay_products(search: str):
                 "currency": item.get("price", {}).get("currency"),
                 "image": item.get("image", {}).get("imageUrl"),
                 "url": item.get("itemWebUrl"),
-                "rating": item.get("averageRating"),
             }
         )
 

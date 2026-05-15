@@ -70,7 +70,7 @@ export function searchProducts(searchValue) {
             const eBayProducts = data.eBay.map(product => ({
                 title: product.title,
 
-                image: product.image,
+                image: product.image ? product.image : "",
 
                 price: product.price,
 
