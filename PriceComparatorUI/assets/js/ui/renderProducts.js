@@ -30,7 +30,7 @@ export function renderProducts(products) {
 
             <div class="product-price">
 
-                $${product.price}
+                ${product.price} USD
 
             </div>
 
