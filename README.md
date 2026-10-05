@@ -55,7 +55,7 @@ PriceComparatorAPI/   FastAPI app, provider integrations, and Python dependencie
 PriceComparatorUI/    Static frontend, organized into UI, service, and style modules
 .gitignore            Repository-wide local and generated-file exclusions
 ```
-## Contributors
+## Team Members
 
 - [Elyas Najeh](https://github.com/ElyasNajeh)
 - [Hareth Shoman](https://github.com/hareth5)
