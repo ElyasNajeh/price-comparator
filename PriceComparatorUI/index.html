@@ -1,142 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>PriceLens</title>
-
+    <meta name="description" content="Compare product prices from Amazon and AliExpress in one place.">
+    <title>PriceLens | Price Comparator</title>
     <link rel="stylesheet" href="./assets/styles/main.css">
-
 </head>
-
 <body>
-
     <header class="header">
-
         <div class="container header-content">
-
-            <div class="logo">
-
-                <div class="logo-box">
-                    P
-                </div>
-
-                <div class="logo-text">
-
-                    <h2>PriceLens</h2>
-
-                    <p>Price Comparison</p>
-
-                </div>
-
-            </div>
-
+            <a class="logo" href="./" aria-label="PriceLens home">
+                <span class="logo-box" aria-hidden="true">P</span>
+                <span class="logo-text">
+                    <strong>PriceLens</strong>
+                    <small>Price comparison</small>
+                </span>
+            </a>
+            <span class="header-note">Amazon + AliExpress</span>
         </div>
-
     </header>
 
+    <main>
+        <section class="hero">
+            <div class="container hero-content">
+                <p class="hero-badge"><span aria-hidden="true">⚡</span> Compare prices in seconds</p>
+                <h1 class="hero-title">A clearer way to<br><span>compare product prices.</span></h1>
+                <p class="hero-description">
+                    Search once to browse current listings from Amazon and AliExpress side by side.
+                </p>
 
-    <section class="hero">
+                <form class="search-box" id="searchForm" novalidate>
+                    <label class="sr-only" for="searchInput">Product to search for</label>
+                    <input
+                        type="search"
+                        class="search-input"
+                        id="searchInput"
+                        placeholder="What are you looking for?"
+                        autocomplete="off"
+                        minlength="2"
+                        maxlength="100"
+                        required
+                    >
 
-        <div class="container">
+                    <label class="sr-only" for="currencySelect">Display currency</label>
+                    <select class="currency-select" id="currencySelect" aria-label="Display currency">
+                        <option value="USD">USD</option>
+                        <option value="ILS">ILS</option>
+                        <option value="EUR">EUR</option>
+                    </select>
 
-            <div class="hero-badge">
+                    <button class="primary-btn search-btn" id="searchBtn" type="submit">Search</button>
+                </form>
 
-                ⚡ Compare prices across the web instantly
-
+                <div class="popular-searches" aria-label="Popular searches">
+                    <span class="popular-label">Popular</span>
+                    <button class="popular-tag" type="button">iPhone 15</button>
+                    <button class="popular-tag" type="button">PlayStation 5</button>
+                    <button class="popular-tag" type="button">MacBook Air</button>
+                </div>
             </div>
+        </section>
 
-
-            <h1 class="hero-title">
-
-                Find the Best Deals<br>
-                Across All Stores
-
-            </h1>
-
-
-            <p class="hero-description">
-
-                Search products and compare prices from multiple
-                online stores in seconds.
-
-            </p>
-
-            <div class="search-box">
-
-                <input type="text" class="search-input" id="searchInput" placeholder="Search for products...">
-
-                <select class="currency-select" id="currencySelect">
-
-                    <option value="USD">USD</option>
-
-                    <option value="ILS">ILS</option>
-
-                    <option value="EUR">EUR</option>
-
-                </select>
-
-                <button class="primary-btn search-btn" id="searchBtn">
-
-                    Search
-
-                </button>
-
+        <section class="results-section" aria-labelledby="resultsTitle">
+            <div class="container">
+                <div class="results-header" id="resultsHeader" hidden>
+                    <div>
+                        <p class="eyebrow">Comparison results</p>
+                        <h2 id="resultsTitle">Products</h2>
+                    </div>
+                    <p class="result-count" id="resultCount"></p>
+                </div>
+                <div class="results-notice" id="resultsNotice" role="status" hidden></div>
+                <div class="results-grid" id="resultsGrid" aria-live="polite"></div>
             </div>
+        </section>
+    </main>
 
-
-            <div class="popular-searches">
-
-                <span class="popular-label">
-
-                    Popular:
-
-                </span>
-
-                <button class="popular-tag">
-
-                    iPhone 15
-
-                </button>
-
-                <button class="popular-tag">
-
-                    Playstation 5
-
-                </button>
-
-                <button class="popular-tag">
-
-                    MacBook Air
-
-                </button>
-
-            </div>
-
+    <footer class="footer">
+        <div class="container footer-content">
+            <p>Prices are provided by third-party services and may change.</p>
+            <a href="https://languagetool.org" target="_blank" rel="noopener noreferrer">
+                Spelling suggestions by LanguageTool
+            </a>
         </div>
-
-    </section>
-
-
-    <section class="results-section">
-
-        <div class="container">
-
-            <div class="results-grid" id="resultsGrid">
-
-            </div>
-
-        </div>
-
-    </section>
-
+    </footer>
 
     <script type="module" src="./assets/js/main.js"></script>
-
 </body>
-
 </html>

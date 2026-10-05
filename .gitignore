@@ -1,5 +1,36 @@
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+
+# Python environments and generated files
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+build/
+dist/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+.cache/
+
+# Local tools and editors
+.idea/
+.vscode/
 .postman/
 postman/
-.env
-venv/
-__pycache__/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+Desktop.ini

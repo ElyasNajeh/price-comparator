@@ -1,89 +1,55 @@
-export function searchProductsEbay(searchValue) {
-    return fetch(`https://dummyjson.com/products/search?q=${searchValue}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Failed To Fetch Products")
-            }
-            return response.json()
-        })
-        .then(data => {
-            const eBayProducts = data.products.map(product => ({
-                title: product.title,
-                image: product.thumbnail,
-                price: product.price,
-                rating: product.rating,
-                store: "eBay"
-            }));
-            return eBayProducts
-        })
-        .catch(error => {
+function getApiBaseUrl() {
+    if (window.location.port === "8000") {
+        return window.location.origin;
+    }
 
-            console.log(error)
-
-            return []
-        })
+    const backendHost = window.location.hostname || "127.0.0.1";
+    const backendProtocol = window.location.protocol === "https:" ? "https:" : "http:";
+    return `${backendProtocol}//${backendHost}:8000`;
 }
 
-export function searchProducts(searchValue) {
 
-    return fetch(`http://127.0.0.1:8000/products?search=${searchValue}`)
+const API_BASE_URL = getApiBaseUrl();
 
-        .then(response => {
 
-            if (!response.ok) {
-                throw new Error("Failed To Fetch Products")
+export async function searchProducts(searchValue, signal) {
+    const url = new URL("/products", API_BASE_URL);
+    url.searchParams.set("search", searchValue);
+
+    let response;
+    try {
+        response = await fetch(url, {
+            headers: { Accept: "application/json" },
+            signal,
+        });
+    } catch (error) {
+        if (error.name === "AbortError") {
+            throw error;
+        }
+
+        throw new Error(
+            "The backend is offline. Start the Price Comparator API and try again.",
+        );
+    }
+
+    if (!response.ok) {
+        let message = "The product search could not be completed.";
+
+        try {
+            const error = await response.json();
+            if (typeof error.detail === "string") {
+                message = error.detail;
             }
+        } catch {
+            // Keep the user-friendly fallback when the API response is not JSON.
+        }
 
-            return response.json()
-        })
+        throw new Error(message);
+    }
 
-        .then(data => {
-
-            const amazonProducts = data.Amazon?.data?.products?.map(product => ({
-
-
-                title: product.product_title,
-
-                image: product.product_photo,
-
-                price: product.product_price,
-
-                rating: product.product_star_rating || "No Rating",
-
-                store: "Amazon"
-
-            })) || []
-
-            const aliexpressProducts =
-                data.AliExpress?.result?.resultList?.map(product => ({
-
-                    title: product.item?.title,
-
-                    image: product.item?.image
-                        ? `https:${product.item.image}`
-                        : "",
-
-                    price:
-                        product.item?.sku?.def?.promotionPrice || "N/A",
-
-                    rating:
-                        product.item?.averageStarRate || "No Rating",
-
-                    store: "AliExpress"
-
-                })) || []
-
-            return [
-                ...amazonProducts,
-                ...aliexpressProducts
-            ]
-        })
-
-        .catch(error => {
-
-            console.log(error)
-
-            return []
-
-        })
+    const data = await response.json();
+    return {
+        products: Array.isArray(data.products) ? data.products : [],
+        providers: Array.isArray(data.providers) ? data.providers : [],
+    };
 }
