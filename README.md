@@ -57,7 +57,6 @@ PriceComparatorUI/    Static frontend, organized into UI, service, and style mod
 ```
 ## Contributors
 
-- **Elyas Ihmud**
-- **Hareth Shoman**
-
+- [Elyas Najeh](https://github.com/ElyasNajeh)
+- [Hareth Shoman](https://github.com/hareth5)
 
