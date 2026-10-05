@@ -55,7 +55,9 @@ PriceComparatorAPI/   FastAPI app, provider integrations, and Python dependencie
 PriceComparatorUI/    Static frontend, organized into UI, service, and style modules
 .gitignore            Repository-wide local and generated-file exclusions
 ```
+## Contributors
 
-## Architecture
+- **Elyas Ihmud**
+- **Hareth Shoman**
 
-FastAPI serves the static frontend and the `/products` endpoint from one local server. The backend reads API keys from its local environment, queries Amazon and AliExpress concurrently, normalizes valid products, and returns combined results plus provider status. The frontend sorts and renders those results safely; public LanguageTool and Frankfurter requests provide optional spelling and display-currency support without using secret keys.
+
